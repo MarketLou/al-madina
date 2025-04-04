@@ -9,6 +9,7 @@
         muted 
         playsinline
       >
+        <source src="/videos/halmadinahero.mov" type="video/quicktime">
         <source src="/videos/hero.mp4" type="video/mp4">
         Your browser does not support the video tag.
       </video>
