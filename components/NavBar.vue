@@ -28,8 +28,12 @@ const navLinks = [
     <nav class="container mx-auto px-4 py-3 flex items-center justify-between">
       <!-- Logo -->
       <div class="flex items-center">
-        <NuxtLink to="/" class="text-xl font-bold" @click="closeMenu">
-          Al Madina
+        <NuxtLink to="/" class="flex items-center" @click="closeMenu">
+          <img 
+            src="/images/almadina-logo.png" 
+            alt="Al Madina Logo" 
+            class="h-36 md:h-48 w-auto py-2 md:py-3"
+          />
         </NuxtLink>
       </div>
 
@@ -39,7 +43,7 @@ const navLinks = [
           v-for="link in navLinks" 
           :key="link.name" 
           :to="link.path"
-          class="text-gray-800 hover:text-gray-600 transition-colors duration-200"
+          class="text-lg text-gray-800 hover:text-gray-600 transition-colors duration-200"
         >
           {{ $t(link.name) }}
         </NuxtLink>
@@ -47,9 +51,15 @@ const navLinks = [
         <!-- Language Toggle Button (Desktop) -->
         <button
           @click="toggleLanguage"
-          class="flex items-center gap-1 text-gray-800 hover:text-gray-600 transition-colors duration-200"
+          :class="`relative flex items-center gap-1 text-lg transition-colors duration-300 px-4 py-2 overflow-hidden group rounded-[20px]
+            ${locale === 'ar' ? 'text-white' : 'text-gray-800 hover:text-white'}`"
           aria-label="Toggle language"
         >
+          <span 
+            :class="`absolute left-0 w-full h-full transform transition-transform duration-300 ease-out rounded-[20px]
+              ${locale === 'ar' ? 'bg-gray-800' : 'bg-gray-400 group-hover:bg-gray-600'}
+              ${locale === 'ar' ? 'translate-x-0' : '-translate-x-full group-hover:translate-x-0'}`"
+          ></span>
           <transition
             enter-active-class="transition-opacity duration-500"
             leave-active-class="transition-opacity duration-500"
@@ -59,10 +69,10 @@ const navLinks = [
             leave-to-class="opacity-100"
             mode="out-in"
           >
-            <span v-if="locale === 'en'" key="english" class="inline-flex items-center">
+            <span v-if="locale === 'en'" key="english" class="relative inline-flex items-center">
               {{ $t('navigation.language.ar') }} 🇸🇦
             </span>
-            <span v-else key="arabic" class="inline-flex items-center">
+            <span v-else key="arabic" class="relative inline-flex items-center">
               🇺🇸 {{ $t('navigation.language.en') }}
             </span>
           </transition>
@@ -138,7 +148,7 @@ const navLinks = [
               v-for="link in navLinks" 
               :key="link.name" 
               :to="link.path"
-              class="text-gray-800 hover:text-gray-600 transition-colors duration-200 py-2"
+              class="text-lg text-gray-800 hover:text-gray-600 transition-colors duration-200 py-2"
               @click="closeMenu"
             >
               {{ $t(link.name) }}
@@ -147,9 +157,15 @@ const navLinks = [
             <!-- Language Toggle Button (Mobile) -->
             <button
               @click="toggleLanguage"
-              class="text-gray-800 hover:text-gray-600 transition-colors duration-200 py-2 text-left"
+              :class="`relative text-lg transition-colors duration-300 px-4 py-2 text-left overflow-hidden group w-full rounded-[20px]
+                ${locale === 'ar' ? 'text-white' : 'text-gray-800 hover:text-white'}`"
               aria-label="Toggle language"
             >
+              <span 
+                :class="`absolute left-0 w-full h-full transform transition-transform duration-300 ease-out rounded-[20px]
+                  ${locale === 'ar' ? 'bg-gray-800' : 'bg-gray-400 group-hover:bg-gray-600'}
+                  ${locale === 'ar' ? 'translate-x-0' : '-translate-x-full group-hover:translate-x-0'}`"
+              ></span>
               <transition
                 enter-active-class="transition-opacity duration-500"
                 leave-active-class="transition-opacity duration-500"
@@ -159,10 +175,10 @@ const navLinks = [
                 leave-to-class="opacity-100"
                 mode="out-in"
               >
-                <span v-if="locale === 'en'" key="english-mobile" class="inline-flex items-center">
+                <span v-if="locale === 'en'" key="english-mobile" class="relative inline-flex items-center">
                   {{ $t('navigation.language.ar') }} 🇸🇦
                 </span>
-                <span v-else key="arabic-mobile" class="inline-flex items-center">
+                <span v-else key="arabic-mobile" class="relative inline-flex items-center">
                   🇺🇸 {{ $t('navigation.language.en') }}
                 </span>
               </transition>
