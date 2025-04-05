@@ -1,0 +1,22 @@
+{
+  "navigation": {
+    "home": "Home",
+    "menu": "Menu",
+    "about": "About",
+    "contact": "Contact",
+    "language": {
+      "en": "English",
+      "ar": "Arabic"
+    }
+  },
+  "home": {
+    "welcome": "Welcome to Al Madina",
+    "tagline": "Experience authentic flavors in a modern atmosphere",
+    "specialties": {
+      "title": "Our Specialties",
+      "description": "Discover our carefully crafted menu featuring traditional recipes with a contemporary twist. Visit us today for an unforgettable dining experience.",
+      "viewMenu": "View Menu"
+    },
+    "browserSupport": "Your browser does not support the video tag."
+  }
+}

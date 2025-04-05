@@ -1,5 +1,6 @@
 <script setup>
 const isMenuOpen = ref(false)
+const { locale, setLocale } = useI18n()
 
 const toggleMenu = () => {
   isMenuOpen.value = !isMenuOpen.value
@@ -9,11 +10,16 @@ const closeMenu = () => {
   isMenuOpen.value = false
 }
 
+const toggleLanguage = async () => {
+  const newLocale = locale.value === 'en' ? 'ar' : 'en'
+  await setLocale(newLocale)
+}
+
 const navLinks = [
-  { name: 'Home', path: '/' },
-  { name: 'Menu', path: '/menu' },
-  { name: 'About', path: '/about' },
-  { name: 'Contact', path: '/contact' },
+  { name: 'navigation.home', path: '/' },
+  { name: 'navigation.menu', path: '/menu' },
+  { name: 'navigation.about', path: '/about' },
+  { name: 'navigation.contact', path: '/contact' },
 ]
 </script>
 
@@ -35,8 +41,32 @@ const navLinks = [
           :to="link.path"
           class="text-gray-800 hover:text-gray-600 transition-colors duration-200"
         >
-          {{ link.name }}
+          {{ $t(link.name) }}
         </NuxtLink>
+        
+        <!-- Language Toggle Button (Desktop) -->
+        <button
+          @click="toggleLanguage"
+          class="flex items-center gap-1 text-gray-800 hover:text-gray-600 transition-colors duration-200"
+          aria-label="Toggle language"
+        >
+          <transition
+            enter-active-class="transition-opacity duration-500"
+            leave-active-class="transition-opacity duration-500"
+            enter-from-class="opacity-0"
+            enter-to-class="opacity-100"
+            leave-from-class="opacity-0"
+            leave-to-class="opacity-100"
+            mode="out-in"
+          >
+            <span v-if="locale === 'en'" key="english" class="inline-flex items-center">
+              {{ $t('navigation.language.ar') }} 🇸🇦
+            </span>
+            <span v-else key="arabic" class="inline-flex items-center">
+              🇺🇸 {{ $t('navigation.language.en') }}
+            </span>
+          </transition>
+        </button>
       </div>
 
       <!-- Hamburger Menu Button -->
@@ -111,8 +141,32 @@ const navLinks = [
               class="text-gray-800 hover:text-gray-600 transition-colors duration-200 py-2"
               @click="closeMenu"
             >
-              {{ link.name }}
+              {{ $t(link.name) }}
             </NuxtLink>
+            
+            <!-- Language Toggle Button (Mobile) -->
+            <button
+              @click="toggleLanguage"
+              class="text-gray-800 hover:text-gray-600 transition-colors duration-200 py-2 text-left"
+              aria-label="Toggle language"
+            >
+              <transition
+                enter-active-class="transition-opacity duration-500"
+                leave-active-class="transition-opacity duration-500"
+                enter-from-class="opacity-0"
+                enter-to-class="opacity-100"
+                leave-from-class="opacity-0"
+                leave-to-class="opacity-100"
+                mode="out-in"
+              >
+                <span v-if="locale === 'en'" key="english-mobile" class="inline-flex items-center">
+                  {{ $t('navigation.language.ar') }} 🇸🇦
+                </span>
+                <span v-else key="arabic-mobile" class="inline-flex items-center">
+                  🇺🇸 {{ $t('navigation.language.en') }}
+                </span>
+              </transition>
+            </button>
           </div>
         </div>
       </div>
@@ -121,8 +175,20 @@ const navLinks = [
 </template>
 
 <style scoped>
+/* Force LTR layout for navbar */
+header,
+nav,
+.flex {
+  direction: ltr !important;
+}
+
 /* Ensure smooth transitions */
 .transform {
   transition-property: transform;
+}
+
+/* Ensure text alignment is consistent */
+.inline-flex {
+  justify-content: flex-start;
 }
 </style>
