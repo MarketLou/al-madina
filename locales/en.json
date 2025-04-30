@@ -17,6 +17,66 @@
       "description": "Discover our carefully crafted menu featuring traditional recipes with a contemporary twist. Visit us today for an unforgettable dining experience.",
       "viewMenu": "View Menu"
     },
+    "kebabSection": {
+      "title": "Fresh Halal Kebabs",
+      "description": "Our Baghdadi-style kebabs in Louisville deliver authentic Middle Eastern flavor using only the freshest, locally sourced ingredients and time-honored recipes from Baghdad's culinary heritage. Diners from all around Louisville seek out these skewers for their smoky char, delicate spice balance, and unbeatable juiciness. Experience genuine Middle Eastern cuisine in Louisville, where each bite honors Baghdad's rich grilling tradition and our unwavering commitment to quality."
+    },
     "browserSupport": "Your browser does not support the video tag."
+  },
+  "menu": {
+    "title": "Our Menu",
+    "subtitle": "Authentic Middle Eastern Cuisine",
+    "searchPlaceholder": "Search menu items...",
+    "noItemsFound": "No items found matching your search",
+    "categories": {
+      "food": "Food",
+      "butchery": "Butchery",
+      "beverage": "Beverages"
+    },
+    "rewards": "Rewards & Savings",
+    "earnPoints": "Earn 1 point for every $1 spent",
+    "signupBonus": "Earn 25 bonus points just for signing up",
+    "items": {
+      "shawarmaPlate": {
+        "name": "Shawarma Plate",
+        "description": "Thinly sliced marinated meat with rice, salad, and pita bread"
+      },
+      "falafelWrap": {
+        "name": "Falafel Wrap",
+        "description": "Crispy falafel balls wrapped with veggies and tahini sauce"
+      },
+      "mixedGrill": {
+        "name": "Mixed Grill",
+        "description": "Combination of grilled meats including kabob, kofta, and chicken"
+      },
+      "hummusMeat": {
+        "name": "Hummus with Meat",
+        "description": "Creamy hummus topped with seasoned minced meat and pine nuts"
+      },
+      "lambCuts": {
+        "name": "Fresh Lamb Cuts",
+        "description": "Premium quality lamb cuts, prepared to your specifications"
+      },
+      "beefSelection": {
+        "name": "Beef Selection",
+        "description": "Choice cuts of premium beef, halal certified"
+      },
+      "marinatedChicken": {
+        "name": "Marinated Chicken",
+        "description": "Tender chicken marinated in our special blend of spices"
+      },
+      "turkishCoffee": {
+        "name": "Turkish Coffee",
+        "description": "Traditional strong coffee prepared in a cezve"
+      },
+      "mintTea": {
+        "name": "Mint Tea",
+        "description": "Fresh mint leaves steeped in hot water with sugar"
+      },
+      "freshJuice": {
+        "name": "Fresh Juice",
+        "description": "Selection of seasonal fresh fruits"
+      }
+    }
   }
 }
