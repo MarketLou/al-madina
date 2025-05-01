@@ -23,6 +23,20 @@
     },
     "browserSupport": "متصفحك لا يدعم تشغيل الفيديو."
   },
+  "footer": {
+    "contact": "اتصل بنا",
+    "hours": "ساعات العمل",
+    "days": {
+      "monday": "الإثنين",
+      "tuesday": "الثلاثاء",
+      "wednesday": "الأربعاء",
+      "thursday": "الخميس",
+      "friday": "الجمعة",
+      "saturday": "السبت",
+      "sunday": "الأحد"
+    },
+    "copyright": "جميع الحقوق محفوظة © {year} المدينة."
+  },
   "menu": {
     "title": "قائمتنا",
     "subtitle": "مأكولات شرق أوسطية أصيلة",

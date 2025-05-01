@@ -23,6 +23,20 @@
     },
     "browserSupport": "Your browser does not support the video tag."
   },
+  "footer": {
+    "contact": "Contact",
+    "hours": "Hours",
+    "days": {
+      "monday": "Monday",
+      "tuesday": "Tuesday",
+      "wednesday": "Wednesday",
+      "thursday": "Thursday",
+      "friday": "Friday",
+      "saturday": "Saturday",
+      "sunday": "Sunday"
+    },
+    "copyright": "Copyright © {year} Al Madina. All Rights Reserved."
+  },
   "menu": {
     "title": "Our Menu",
     "subtitle": "Authentic Middle Eastern Cuisine",
