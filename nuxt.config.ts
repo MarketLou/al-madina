@@ -4,8 +4,16 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: [
     '@nuxtjs/tailwindcss',
-    '@nuxtjs/i18n'
+    '@nuxtjs/i18n',
+    '@pinia/nuxt'
   ],
+  runtimeConfig: {
+    public: {
+      MEDUSA_REGION: 'reg_01JVRMTHPKP1GNACZH2TMVXPG0', // Updated to the correct region ID
+      MEDUSA_BACKEND_URL: 'http://localhost:9000',
+      MEDUSA_PUBLISHABLE_API_KEY: 'pk_59a7db2a8b74cbcfb68f0969577480d5914251476e93679f66220760e507c6b1'
+    }
+  },
   i18n: {
     langDir: 'locales',
     defaultLocale: 'en',

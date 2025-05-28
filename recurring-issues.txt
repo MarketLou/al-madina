@@ -1,0 +1,50 @@
+# Al Madina Website - Recurring Issues and Solutions
+
+## Navbar and Content Spacing
+
+### Issue
+The default spacing used for fixed navbars (pt-16 or mt-16) is insufficient for the Al Madina website because of the custom oversized logo.
+
+### Root Cause
+- The navbar contains a large logo with classes `h-36 md:h-48` which makes it much taller than standard navbars
+- Standard spacing (4rem / 16 tailwind units) doesn't account for this extra height
+- This causes content to overlap with the navbar
+
+### Solution
+- Use significantly larger padding values on content pages
+- Mobile: pt-48 (12rem)
+- Desktop: md:pt-56 (14rem)
+- Apply this padding to the parent container of page content, not to individual elements
+
+### Example Implementation
+```vue
+<template>
+  <div class="pt-48 md:pt-56">
+    <!-- Hero Section or other content -->
+    <div>
+      <!-- Content here -->
+    </div>
+  </div>
+</template>
+```
+
+## Language Toggle Styling
+
+- The language toggle button uses a sliding fill animation with rounded corners (20px radius)
+- It maintains a filled state when Arabic is selected
+- Uses gray-400 (light) to gray-600 (medium) for English hover state
+- Uses gray-800 (dark) for Arabic selected state
+
+## Layout Preferences
+
+- Clean layout with no visual gaps between elements
+- Navbar should maintain stable layout during language switches
+- Font sizes for navigation items increased by 20% (text-lg)
+- Text logo replaced with image logo (public/images/almadina-logo.png)
+
+## Site-wide Styling Requirements
+
+- All new pages must use the background color #FEFAEB (light cream/beige) to maintain visual consistency
+- This is the same color used in the navbar (bg-[#FEFAEB])
+- Apply this color to content sections using Tailwind classes: bg-[#FEFAEB]
+- Hero sections with images can use their own backgrounds, but main content areas should use this color

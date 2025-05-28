@@ -1,4 +1,6 @@
 <script setup>
+import CartIndicator from '~/components/CartIndicator.vue';
+
 const isMenuOpen = ref(false)
 const { locale, setLocale } = useI18n()
 
@@ -47,6 +49,11 @@ const navLinks = [
         >
           {{ $t(link.name) }}
         </NuxtLink>
+        
+        <!-- Cart Indicator (Desktop) -->
+        <div class="text-lg text-gray-800 hover:text-gray-600 transition-colors duration-200">
+          <CartIndicator />
+        </div>
         
         <!-- Language Toggle Button (Desktop) -->
         <button
@@ -153,6 +160,11 @@ const navLinks = [
             >
               {{ $t(link.name) }}
             </NuxtLink>
+            
+            <!-- Cart Indicator (Mobile) -->
+            <div class="text-lg text-gray-800 hover:text-gray-600 transition-colors duration-200 py-2">
+              <CartIndicator @click="closeMenu" />
+            </div>
             
             <!-- Language Toggle Button (Mobile) -->
             <button

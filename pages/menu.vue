@@ -19,40 +19,86 @@
     <!-- Menu Container -->
     <div class="bg-[#FEFAEB]">
       <div class="container mx-auto px-4 py-8">
-        <!-- Menu Navigation -->
-        <div class="overflow-x-auto mb-8">
-          <div class="flex space-x-8 min-w-max border-b border-gray-200">
-            <button 
-              v-for="category in menuCategories" 
-              :key="category.id"
-              @click="activeCategory = category.id"
-              class="pb-2 px-1 -mb-px text-gray-700 hover:text-gray-900 transition-colors"
-              :class="{ 'border-b-2 border-gray-800 font-medium': activeCategory === category.id }"
-            >
-              {{ $t(category.name) }}
-            </button>
-          </div>
+        <!-- Loading State -->
+        <div v-if="isLoading" class="flex justify-center items-center py-20">
+          <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900"></div>
         </div>
-        
-        <!-- Menu Items -->
-        <div v-if="filteredMenuItems.length > 0">
-          <div class="grid md:grid-cols-2 gap-6">
-            <div 
-              v-for="(item, index) in filteredMenuItems" 
-              :key="index"
-              class="border-b border-gray-200 pb-4 last:border-b-0"
-            >
-              <div class="flex-1">
-                <h3 class="font-medium text-lg">{{ $t(item.name) }}</h3>
-                <p class="text-gray-600 mt-1">{{ $t(item.description) }}</p>
-                <div class="mt-2 text-gray-900 font-medium">${{ item.price.toFixed(2) }}</div>
+
+        <template v-else>
+          <!-- Menu Navigation -->
+          <div class="overflow-x-auto mb-8">
+            <div class="flex space-x-8 min-w-max border-b border-gray-200">
+              <button 
+                v-for="category in productCategories" 
+                :key="category.id"
+                @click="activeCategory = category.id"
+                class="pb-2 px-1 -mb-px text-gray-700 hover:text-gray-900 transition-colors"
+                :class="{ 'border-b-2 border-gray-800 font-medium': activeCategory === category.id }"
+              >
+                {{ category.name }}
+              </button>
+            </div>
+          </div>
+          
+          <!-- Menu Items -->
+          <div v-if="filteredProducts.length > 0">
+            <div class="grid md:grid-cols-2 gap-6">
+              <div 
+                v-for="product in filteredProducts" 
+                :key="product.id"
+                class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow"
+              >
+                <div class="flex flex-col h-full">
+                  <div v-if="product.thumbnail" class="mb-4 h-48 overflow-hidden rounded-md">
+                    <img 
+                      :src="product.thumbnail" 
+                      :alt="product.title" 
+                      class="w-full h-full object-cover"
+                    >
+                  </div>
+                  <div class="flex-1">
+                    <h3 class="font-medium text-lg">{{ product.title }}</h3>
+                    <p class="text-gray-600 mt-1 line-clamp-2">{{ product.description }}</p>
+                    <div class="mt-2 text-gray-900 font-medium">
+                      {{ formatPrice(product.variants[0]?.prices[0]?.amount) }}
+                    </div>
+                  </div>
+                  <div class="mt-4 flex justify-between items-center">
+                    <div class="flex items-center">
+                      <button 
+                        @click="decrementQuantity(product.id)" 
+                        class="w-8 h-8 flex items-center justify-center border border-gray-300 rounded-l-md"
+                        :disabled="productQuantities[product.id] <= 1"
+                      >
+                        -
+                      </button>
+                      <div class="w-10 h-8 flex items-center justify-center border-t border-b border-gray-300">
+                        {{ productQuantities[product.id] || 1 }}
+                      </div>
+                      <button 
+                        @click="incrementQuantity(product.id)" 
+                        class="w-8 h-8 flex items-center justify-center border border-gray-300 rounded-r-md"
+                      >
+                        +
+                      </button>
+                    </div>
+                    <button 
+                      @click="addToCart(product)" 
+                      class="bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-gray-700 transition-colors"
+                      :disabled="cartStore.loading"
+                    >
+                      <span v-if="cartStore.loading">Adding...</span>
+                      <span v-else>Add to Cart</span>
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div v-else class="text-center py-12">
-          <p class="text-gray-600">{{ $t('menu.noItemsFound') }}</p>
-        </div>
+          <div v-else class="text-center py-12">
+            <p class="text-gray-600">{{ $t('menu.noItemsFound') }}</p>
+          </div>
+        </template>
       </div>
     </div>
   </div>
@@ -60,95 +106,135 @@
 
 <script setup>
 const { locale } = useI18n();
+import { useCartStore } from '~/stores/cart';
 
-// Active menu category
-const activeCategory = ref('food');
+// Initialize cart store
+const cartStore = useCartStore();
 
-// Menu categories
-const menuCategories = [
-  { id: 'food', name: 'menu.categories.food' },
-  { id: 'butchery', name: 'menu.categories.butchery' },
-  { id: 'beverage', name: 'menu.categories.beverage' }
-];
-
-// Menu items data
-const menuItems = [
-  // Food items
-  {
-    category: 'food',
-    name: 'menu.items.shawarmaPlate.name',
-    description: 'menu.items.shawarmaPlate.description',
-    price: 14.99
-  },
-  {
-    category: 'food',
-    name: 'menu.items.falafelWrap.name',
-    description: 'menu.items.falafelWrap.description',
-    price: 10.99
-  },
-  {
-    category: 'food',
-    name: 'menu.items.mixedGrill.name',
-    description: 'menu.items.mixedGrill.description',
-    price: 18.99
-  },
-  {
-    category: 'food',
-    name: 'menu.items.hummusMeat.name',
-    description: 'menu.items.hummusMeat.description',
-    price: 12.99
-  },
-  
-  // Butchery items
-  {
-    category: 'butchery',
-    name: 'menu.items.lambCuts.name',
-    description: 'menu.items.lambCuts.description',
-    price: 19.99
-  },
-  {
-    category: 'butchery',
-    name: 'menu.items.beefSelection.name',
-    description: 'menu.items.beefSelection.description',
-    price: 24.99
-  },
-  {
-    category: 'butchery',
-    name: 'menu.items.marinatedChicken.name',
-    description: 'menu.items.marinatedChicken.description',
-    price: 14.99
-  },
-  
-  // Beverage items
-  {
-    category: 'beverage',
-    name: 'menu.items.turkishCoffee.name',
-    description: 'menu.items.turkishCoffee.description',
-    price: 3.99
-  },
-  {
-    category: 'beverage',
-    name: 'menu.items.mintTea.name',
-    description: 'menu.items.mintTea.description',
-    price: 2.99
-  },
-  {
-    category: 'beverage',
-    name: 'menu.items.freshJuice.name',
-    description: 'menu.items.freshJuice.description',
-    price: 4.99
-  }
-];
-
-// Filter menu items based on active category
-const filteredMenuItems = computed(() => {
-  // Filter by category
-  if (activeCategory.value) {
-    return menuItems.filter(item => item.category === activeCategory.value);
-  }
-  
-  return menuItems;
+// Fetch cart on page load
+onMounted(async () => {
+  await cartStore.fetchCart();
 });
+
+// Active category and loading state
+const activeCategory = ref(null);
+const isLoading = ref(true);
+const products = ref([]);
+const productCategories = ref([]);
+const productQuantities = ref({});
+
+// Format price from cents to dollars
+const formatPrice = (cents) => {
+  if (!cents) return '$0.00';
+  return `$${(cents / 100).toFixed(2)}`;
+};
+
+// Fetch products from Medusa
+async function fetchProducts() {
+  isLoading.value = true;
+  
+  try {
+    const { $medusa, $medusaRegionId } = useNuxtApp();
+    console.log('Fetching products from Medusa with region ID:', $medusaRegionId);
+    
+    // Get the response from Medusa with region_id
+    const response = await $medusa.products.list({
+      limit: 100,
+      region_id: $medusaRegionId
+    });
+    
+    console.log('Medusa response:', response);
+    
+    // Handle the response structure correctly
+    if (response && response.products) {
+      products.value = response.products;
+      console.log('Products loaded:', products.value.length);
+      
+      // Extract unique categories from products
+      const categories = new Map();
+      
+      products.value.forEach(product => {
+        if (product.collection) {
+          categories.set(product.collection.id, {
+            id: product.collection.id,
+            name: product.collection.title
+          });
+        }
+      });
+      
+      productCategories.value = Array.from(categories.values());
+      console.log('Categories found:', productCategories.value.length);
+      
+      // Set default active category if available
+      if (productCategories.value.length > 0 && !activeCategory.value) {
+        activeCategory.value = productCategories.value[0].id;
+      } else if (productCategories.value.length === 0) {
+        // If no categories, show all products
+        activeCategory.value = null;
+      }
+      
+      // Initialize quantities
+      products.value.forEach(product => {
+        productQuantities.value[product.id] = 1;
+      });
+    } else {
+      console.error('Invalid response structure from Medusa API');
+      products.value = [];
+    }
+  } catch (error) {
+    console.error('Error fetching products:', error);
+    products.value = [];
+  } finally {
+    isLoading.value = false;
+  }
+}
+
+// Call fetchProducts on component mount
+onMounted(() => {
+  fetchProducts();
+});
+
+// Filter products based on active category
+const filteredProducts = computed(() => {
+  if (!activeCategory.value) return products.value;
+  
+  return products.value.filter(product => 
+    product.collection && product.collection.id === activeCategory.value
+  );
+});
+
+// Quantity management
+function incrementQuantity(productId) {
+  if (!productQuantities.value[productId]) {
+    productQuantities.value[productId] = 1;
+  }
+  productQuantities.value[productId]++;
+}
+
+function decrementQuantity(productId) {
+  if (productQuantities.value[productId] > 1) {
+    productQuantities.value[productId]--;
+  }
+}
+
+// Add to cart function
+async function addToCart(product) {
+  if (!product.variants || product.variants.length === 0) {
+    console.error('Product has no variants');
+    return;
+  }
+  
+  const variantId = product.variants[0].id;
+  const quantity = productQuantities.value[product.id] || 1;
+  
+  try {
+    await cartStore.addItem(variantId, quantity);
+    // Reset quantity after adding to cart
+    productQuantities.value[product.id] = 1;
+  } catch (error) {
+    console.error('Error adding to cart:', error);
+  }
+}
 </script>
 
 <style scoped>
