@@ -1,6 +1,6 @@
 <template>
   <div class="relative min-h-screen pt-16 bg-[#FEFAEB]">
-    <!-- Content -->
+    <!-- Content --->
     <div class="relative z-10 pt-20 container mx-auto px-4 min-h-screen flex items-center">
       <div class="max-w-4xl mx-auto text-gray-800">
         <h1 class="text-4xl md:text-6xl font-bold mb-6">{{ $t('home.welcome') }}</h1>
