@@ -149,4 +149,4 @@ If you encounter issues with the Medusa integration, check the following:
 
 5. **Network Requests**: Use the browser's network tab to inspect the actual API requests and responses between the Nuxt frontend and Medusa backend.
 
-<!-- Last updated: May 28, 2025 -->
+<!-- Last updated: May 28, 2025 10:21 AM -->
