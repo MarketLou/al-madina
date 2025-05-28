@@ -148,3 +148,5 @@ If you encounter issues with the Medusa integration, check the following:
 4. **Authentication**: Some Medusa endpoints may require authentication. Check if you need to include authentication headers in your requests.
 
 5. **Network Requests**: Use the browser's network tab to inspect the actual API requests and responses between the Nuxt frontend and Medusa backend.
+
+<!-- Last updated: May 28, 2025 -->
